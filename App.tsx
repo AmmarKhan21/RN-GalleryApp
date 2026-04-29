@@ -1,45 +1,35 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React from 'react';
+import { StatusBar, View, ActivityIndicator } from 'react-native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { ApolloProvider } from '@apollo/client/react';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { store, persistor } from './src/app/store';
+import apolloClient from './src/graphql/apolloClient';
+import RootNavigator from './src/navigation/RootNavigator';
+import { Colors } from './src/theme';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+const PersistLoader: React.FC = () => (
+  <View style={{ flex: 1, backgroundColor: Colors.background, alignItems: 'center', justifyContent: 'center' }}>
+    <ActivityIndicator size="large" color={Colors.primary} />
+  </View>
+);
 
-  return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const App: React.FC = () => (
+  <Provider store={store}>
+    <PersistGate loading={<PersistLoader />} persistor={persistor}>
+      <ApolloProvider client={apolloClient}>
+        <SafeAreaProvider>
+          <StatusBar barStyle="light-content" backgroundColor={Colors.background} translucent={false} />
+          <NavigationContainer>
+            <RootNavigator />
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </ApolloProvider>
+    </PersistGate>
+  </Provider>
+);
 
 export default App;
