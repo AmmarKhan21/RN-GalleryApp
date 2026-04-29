@@ -34,6 +34,7 @@ import AppErrorView from '../../../../shared/components/AppErrorView';
 import AppCard from '../../../../shared/components/AppCard';
 import AppHeartAnimation from '../../../../shared/components/AppHeartAnimation';
 import AppImage from '../../../../shared/components/AppImage';
+import useDeviceInfo from '../../../../native/useDeviceInfo';
 
 type NavigationProp = NativeStackNavigationProp<AppStackParamList, 'ImageDetail'>;
 type RoutePropType = RouteProp<AppStackParamList, 'ImageDetail'>;
@@ -54,6 +55,7 @@ const ImageDetailScreen: React.FC = () => {
   const { params } = useRoute<RoutePropType>();
   const dispatch = useAppDispatch();
   const likedImageIds = useAppSelector((s) => s.gallery.likedImageIds);
+  const { deviceInfo } = useDeviceInfo();
   const isLiked = likedImageIds.includes(params.imageId);
 
   const [heartAnimKey, setHeartAnimKey] = useState(0);
@@ -197,11 +199,32 @@ const ImageDetailScreen: React.FC = () => {
               {image.description}
             </AppText>
           </AppCard>
+
+          {deviceInfo && (
+            <AppCard style={styles.deviceCard}>
+              <AppText variant="label" color={Colors.primary} style={styles.sectionLabel}>Device Info (Native Module)</AppText>
+              <View style={styles.deviceGrid}>
+                <DeviceInfoRow label="Model" value={deviceInfo.model} />
+                <DeviceInfoRow label="Manufacturer" value={deviceInfo.manufacturer} />
+                <DeviceInfoRow label="OS" value={`${deviceInfo.systemName} ${deviceInfo.systemVersion}`} />
+                {deviceInfo.sdkVersion !== 'N/A' && (
+                  <DeviceInfoRow label="SDK" value={`API ${deviceInfo.sdkVersion}`} />
+                )}
+              </View>
+            </AppCard>
+          )}
         </Animated.View>
       </ScrollView>
     </View>
   );
 };
+
+const DeviceInfoRow: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+  <View style={styles.deviceRow}>
+    <AppText variant="caption" color={Colors.textMuted} style={styles.deviceLabel}>{label}</AppText>
+    <AppText variant="bodySmall" color={Colors.textPrimary} style={styles.deviceValue}>{value}</AppText>
+  </View>
+);
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: Colors.background },
@@ -249,6 +272,11 @@ const styles = StyleSheet.create({
   descriptionCard: { gap: Spacing.sm },
   sectionLabel: { marginBottom: Spacing.xs },
   description: { lineHeight: moderateScale(14) * 1.75 },
+  deviceCard: { gap: Spacing.sm },
+  deviceGrid: { gap: Spacing.xs },
+  deviceRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: Spacing.xs },
+  deviceLabel: { flex: 1 },
+  deviceValue: { flex: 2, textAlign: 'right', color: Colors.textPrimary },
 });
 
 export default ImageDetailScreen;
