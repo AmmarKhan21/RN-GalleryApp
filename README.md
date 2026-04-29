@@ -194,4 +194,6 @@ const info = await DeviceDetails.getDeviceInfo();
 
 > The device info is displayed in the **Device Info card at the bottom of the Image Detail screen**.
 
+## App Screenshots
 
+[View App Screenshots](https://github.com/AmmarKhan21/RN-GalleryApp/tree/main/screenshots)
