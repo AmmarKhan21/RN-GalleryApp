@@ -1,19 +1,19 @@
 export const Colors = {
-  primary: '#6C63FF',
-  primaryDark: '#4B44CC',
-  primaryLight: '#9B95FF',
+  primary: '#00C896',
+  primaryDark: '#009970',
+  primaryLight: '#5CDDB8',
   accent: '#FF6584',
   accentDark: '#CC4F69',
 
-  background: '#0D0D1A',
-  surface: '#161627',
-  surfaceElevated: '#1E1E35',
-  surfaceBorder: '#2A2A48',
+  background: '#080D0C',
+  surface: '#0F1614',
+  surfaceElevated: '#162019',
+  surfaceBorder: '#1F2E28',
 
-  textPrimary: '#F0F0FF',
-  textSecondary: '#9B9BBF',
-  textMuted: '#5A5A80',
-  textInverse: '#0D0D1A',
+  textPrimary: '#E8F5F0',
+  textSecondary: '#7A9990',
+  textMuted: '#3D5C54',
+  textInverse: '#080D0C',
 
   success: '#4CAF7D',
   warning: '#FFB547',
@@ -26,14 +26,14 @@ export const Colors = {
   transparent: 'transparent',
 
   likeActive: '#FF6584',
-  likeInactive: '#5A5A80',
+  likeInactive: '#3D5C54',
 
-  cardBackground: '#1E1E35',
-  cardBorder: '#2A2A48',
+  cardBackground: '#162019',
+  cardBorder: '#1F2E28',
   cardShadow: '#00000080',
 
-  overlayDark: 'rgba(13,13,26,0.85)',
-  overlayMedium: 'rgba(13,13,26,0.5)',
+  overlayDark: 'rgba(8,13,12,0.88)',
+  overlayMedium: 'rgba(8,13,12,0.52)',
 } as const;
 
 export type ColorsType = typeof Colors;
